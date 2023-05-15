@@ -1,0 +1,197 @@
+create database LIBRARY;
+CREATE TABLE [Admin] (
+  [Admin_ID] int,
+  [Name] varchar(50) not null,
+  [Email] varchar(50) not null,
+  [Password] varchar(50) not null,
+  PRIMARY KEY ([Admin_ID])
+);
+
+CREATE TABLE [Publisher] (
+  [Name] varchar(50) not null,
+  [Address] varchar(50),
+  [Phone] int,
+  PRIMARY KEY ([Name])
+);
+
+CREATE TABLE [Author] (
+  [Author_ID] int,
+  [Name] varchar(50) not null,
+  PRIMARY KEY ([Author_ID])
+);
+
+CREATE TABLE [Book] (
+  [ISBN] int,
+  [Publisher_Name] varchar(50),
+  [Title] varchar(50) not null,
+  [Publication_Year] int not null,
+  [Admin_ID] int,
+  [Author_ID] int,
+  PRIMARY KEY ([ISBN]),
+  CONSTRAINT [FK_Book.Publisher_Name]
+    FOREIGN KEY ([Publisher_Name])
+      REFERENCES [Publisher]([Name]),
+  CONSTRAINT [FK_Book.Admin_ID]
+    FOREIGN KEY ([Admin_ID])
+      REFERENCES [Admin]([Admin_ID]),
+  CONSTRAINT [FK_Book.Author_ID]
+    FOREIGN KEY ([Author_ID])
+      REFERENCES [Author]([Author_ID])
+);
+
+CREATE TABLE [Student] (
+  [Student_ID] int,
+  [Fname] varchar(50) not null,
+  [Lname] varchar(50) not null,
+  [Email] varchar(50),
+  [Phone] int,
+  PRIMARY KEY ([Student_ID])
+);
+
+CREATE TABLE [Borrower] (
+  [Borrower_ID] int,
+  [Phone] int not null,
+  PRIMARY KEY ([Borrower_ID])
+);
+
+CREATE TABLE [Loan] (
+  [Loan_ID] int,
+  [Borrower_ID] int,
+  [Book_ID] int,
+  [Dateout] date not null,
+  [Duedate] date not null,
+  PRIMARY KEY ([Loan_ID]),
+  CONSTRAINT [FK_Loan.Borrower_ID]
+    FOREIGN KEY ([Borrower_ID])
+      REFERENCES [Borrower]([Borrower_ID]),
+  CONSTRAINT [FK_Loan.Book_ID]
+    FOREIGN KEY ([Book_ID])
+      REFERENCES [Book]([ISBN])
+);
+
+-----------------------------------------------------------------------------------------------------
+--Inserts for Admin Table--
+INSERT INTO [Admin] ([Admin_ID], [Name], [Email], [Password])
+VALUES (1, 'John Smith', 'john.smith@example.com', 'password123');
+
+INSERT INTO [Admin] ([Admin_ID], [Name], [Email], [Password])
+VALUES (2, 'Sarah Johnson', 'sarah.johnson@example.com', 'password456');
+
+INSERT INTO [Admin] ([Admin_ID], [Name], [Email], [Password])
+VALUES (3, 'David Lee', 'david.lee@example.com', 'password789');
+
+INSERT INTO [Admin] ([Admin_ID], [Name], [Email], [Password])
+VALUES (4, 'Karen Chen', 'karen.chen@example.com', 'password123');
+
+INSERT INTO [Admin] ([Admin_ID], [Name], [Email], [Password])
+VALUES (5, 'Kevin Kim', 'kevin.kim@example.com', 'password456');
+
+-----------------------------------------------------------------------------------------------------
+--Inserts for Publisher Table--
+INSERT INTO [Publisher] ([Name], [Address], [Phone])
+VALUES ('Random House', '123 Main St, New York, NY', 5551234);
+
+INSERT INTO [Publisher] ([Name], [Address], [Phone])
+VALUES ('HarperCollins', '456 Broadway, New York, NY', 5552345);
+
+INSERT INTO [Publisher] ([Name], [Address], [Phone])
+VALUES ('Penguin Random House', '789 Fifth Ave, New York, NY', 5553456);
+
+INSERT INTO [Publisher] ([Name], [Address], [Phone])
+VALUES ('Simon & Schuster', '101 Sixth Ave, New York, NY', 5554567);
+
+INSERT INTO [Publisher] ([Name], [Address], [Phone])
+VALUES ('Macmillan Publishers', '333 Broadway, New York, NY', 5555678);
+
+-----------------------------------------------------------------------------------------------------
+--Inserts for Author Table--
+INSERT INTO [Author] ([Author_ID], [Name])
+VALUES (1, 'J.K. Rowling');
+
+INSERT INTO [Author] ([Author_ID], [Name])
+VALUES (2, 'Stephen King');
+
+INSERT INTO [Author] ([Author_ID], [Name])
+VALUES (3, 'Jane Austen');
+
+INSERT INTO [Author] ([Author_ID], [Name])
+VALUES (4, 'George Orwell');
+
+INSERT INTO [Author] ([Author_ID], [Name])
+VALUES (5, 'Agatha Christie');
+
+-----------------------------------------------------------------------------------------------------
+--Inserts for Book Table--
+INSERT INTO [Book] ([ISBN], [Publisher_Name], [Title], [Publication_Year], [Admin_ID], [Author_ID]) 
+VALUES (1234567890, 'Penguin Random House', 'To Kill a Mockingbird', 1960, 2, 1);
+
+INSERT INTO [Book] ([ISBN], [Publisher_Name], [Title], [Publication_Year], [Admin_ID], [Author_ID]) 
+VALUES (1045678901, 'HarperCollins', 'The Great Gatsby', 1925, 3, 2);
+
+INSERT INTO [Book] ([ISBN], [Publisher_Name], [Title], [Publication_Year], [Admin_ID], [Author_ID]) 
+VALUES (1156789012, 'Simon & Schuster', '1984', 1949, 4, 3);
+
+INSERT INTO [Book] ([ISBN], [Publisher_Name], [Title], [Publication_Year], [Admin_ID], [Author_ID]) 
+VALUES (1567890123, 'Macmillan Publishers', 'The Catcher in the Rye', 1951, 5, 4);
+
+INSERT INTO [Book] ([ISBN], [Publisher_Name], [Title], [Publication_Year], [Admin_ID], [Author_ID]) 
+VALUES (1678901234, 'Penguin Random House', 'Pride and Prejudice', 1813, 1, 5);
+
+-----------------------------------------------------------------------------------------------------
+--Inserts for Student Table--
+INSERT INTO [Student] ([Student_ID], [Fname], [Lname], [Email], [Phone]) 
+VALUES (1, 'Amy', 'Lee', 'amy.lee@email.com', 5551234);
+
+INSERT INTO [Student] ([Student_ID], [Fname], [Lname], [Email], [Phone]) 
+VALUES (2, 'Michael', 'Smith', 'michael.smith@email.com', 5555678);
+
+INSERT INTO [Student] ([Student_ID], [Fname], [Lname], [Email], [Phone]) 
+VALUES (3, 'Emma', 'Garcia', 'emma.garcia@email.com', 5559012);
+
+INSERT INTO [Student] ([Student_ID], [Fname], [Lname], [Email], [Phone]) 
+VALUES (4, 'Daniel', 'Brown', 'daniel.brown@email.com', 5553456);
+
+INSERT INTO [Student] ([Student_ID], [Fname], [Lname], [Email], [Phone]) 
+VALUES (5, 'Sophia', 'Kim', 'sophia.kim@email.com', 5557890);
+
+-----------------------------------------------------------------------------------------------------
+--Inserts for Borrower Table--
+INSERT INTO [Borrower] ([Borrower_ID], [Phone]) 
+VALUES (1, 5551111);
+
+INSERT INTO [Borrower] ([Borrower_ID], [Phone]) 
+VALUES (2, 5552222);
+
+INSERT INTO [Borrower] ([Borrower_ID], [Phone]) 
+VALUES (3, 5553333);
+
+INSERT INTO [Borrower] ([Borrower_ID], [Phone]) 
+VALUES (4, 5554444);
+
+INSERT INTO [Borrower] ([Borrower_ID], [Phone]) 
+VALUES (5, 5555555);
+
+-----------------------------------------------------------------------------------------------------
+--Inserts for Loan Table--
+INSERT INTO [Loan] ([Loan_ID], [Borrower_ID], [Book_ID], [Dateout], [Duedate]) 
+VALUES (1, 1, 1234567890, '2023-05-01', '2023-05-15');
+
+INSERT INTO [Loan] ([Loan_ID], [Borrower_ID], [Book_ID], [Dateout], [Duedate]) 
+VALUES (2, 2, 1678901234, '2023-05-02', '2023-05-16');
+
+INSERT INTO [Loan] ([Loan_ID], [Borrower_ID], [Book_ID], [Dateout], [Duedate]) 
+VALUES (3, 3, 1045678901, '2023-05-03', '2023-05-17');
+
+INSERT INTO [Loan] ([Loan_ID], [Borrower_ID], [Book_ID], [Dateout], [Duedate]) 
+VALUES (4, 4, 1156789012, '2023-05-04', '2023-05-18');
+
+INSERT INTO [Loan] ([Loan_ID], [Borrower_ID], [Book_ID], [Dateout], [Duedate]) 
+VALUES (5, 5, 1567890123, '2023-05-05', '2023-05-19');
+
+Select * from Admin;
+Select * from Author;
+Select * from Student;
+Select * from Loan;
+Select * from Book;
+Select * from Publisher;
+Select * from Borrower;
