@@ -1,0 +1,124 @@
+CREATE TABLE `Admin` (
+  `Admin_ID` int,
+  `Name` varchar(50),
+  `Email` varchar(50),
+  `Password` varchar(50),
+  PRIMARY KEY (`Admin_ID`)
+);
+
+CREATE TABLE `Publisher` (
+  `Name` varchar(50),
+  `Address` varchar(50),
+  `Phone` int,
+  PRIMARY KEY (`Name`)
+);
+
+CREATE TABLE `Author` (
+  `Author_ID` int,
+  `Name` varchar(50),
+  PRIMARY KEY (`Author_ID`)
+);
+
+CREATE TABLE `Book` (
+  `ISBN` int,
+  `Publisher_Name` varchar(50),
+  `Title` varchar(50),
+  `Publication_Year` int,
+  `Admin_ID` int,
+  `Author_ID` int,
+  PRIMARY KEY (`ISBN`),
+  FOREIGN KEY (`Admin_ID`) REFERENCES `Admin`(`Admin_ID`),
+  FOREIGN KEY (`Publisher_Name`) REFERENCES `Publisher`(`Name`),
+  FOREIGN KEY (`Author_ID`) REFERENCES `Author`(`Author_ID`)
+);
+
+CREATE TABLE `Student` (
+  `Student_ID` int,
+  `Fname` varchar(50),
+  `Lname` varchar(50),
+  `Email` varchar(50),
+  `Phone` int,
+  PRIMARY KEY (`Student_ID`)
+);
+
+CREATE TABLE `Borrower` (
+  `Borrower_ID` int,
+  `Phone` int,
+  PRIMARY KEY (`Borrower_ID`)
+);
+
+CREATE TABLE `Loan` (
+  `Loan_ID` int,
+  `Borrower_ID` int,
+  `Book_ID` int,
+  `Dateout` date,
+  `Duedate` date,
+  PRIMARY KEY (`Loan_ID`),
+  FOREIGN KEY (`Borrower_ID`) REFERENCES `Borrower`(`Borrower_ID`),
+  FOREIGN KEY (`Book_ID`) REFERENCES `Book`(`ISBN`)
+);
+
+INSERT INTO `Admin` (`Admin_ID`, `Name`, `Email`, `Password`)
+VALUES 
+	(1, 'John Smith', 'john.smith@example.com', 'password123'),
+	(2, 'Sarah Johnson', 'sarah.johnson@example.com', 'password456'),
+	(3, 'David Lee', 'david.lee@example.com', 'password789'),
+	(4, 'Karen Chen', 'karen.chen@example.com', 'password123'),
+	(5, 'Kevin Kim', 'kevin.kim@example.com', 'password456');
+-----------------------------------------------------------------------------------------------------
+INSERT INTO `Publisher` (`Name`, `Address`, `Phone`)
+VALUES 
+	('Random House', '123 Main St, New York, NY', 5551234),
+	('HarperCollins', '456 Broadway, New York, NY', 5552345),
+	('Penguin Random House', '789 Fifth Ave, New York, NY', 5553456),
+	('Simon & Schuster', '101 Sixth Ave, New York, NY', 5554567),
+	('Macmillan Publishers', '333 Broadway, New York, NY', 5555678);
+-----------------------------------------------------------------------------------------------------
+INSERT INTO `Author` (`Author_ID`, `Name`) 
+VALUES 
+	(1, 'J.K. Rowling'),
+	(2, 'Stephen King'),
+	(3, 'Jane Austen'),
+	(4, 'George Orwell'),
+	(5, 'Agatha Christie');
+-----------------------------------------------------------------------------------------------------
+INSERT INTO Book (ISBN, Publisher_Name, Title, Publication_Year, Admin_ID, Author_ID) 
+VALUES 
+	(1234567890, 'Penguin Random House', 'To Kill a Mockingbird', 1960, 2, 1),
+	(1045678901, 'HarperCollins', 'The Great Gatsby', 1925, 3, 2),
+	(1156789012, 'Simon & Schuster', '1984', 1949, 4, 3),
+	(1567890123, 'Macmillan Publishers', 'The Catcher in the Rye', 1951, 5, 4),
+	(1678901234, 'Penguin Random House', 'Pride and Prejudice', 1813, 1, 5);
+-----------------------------------------------------------------------------------------------------
+INSERT INTO Student (Student_ID, Fname, Lname, Email, Phone) 
+VALUES 
+	(1, 'Amy', 'Lee', 'amy.lee@email.com', 5551234),
+	(2, 'Michael', 'Smith', 'michael.smith@email.com', 5555678),
+	(3, 'Emma', 'Garcia', 'emma.garcia@email.com', 5559012),
+	(4, 'Daniel', 'Brown', 'daniel.brown@email.com', 5553456),
+	(5, 'Sophia', 'Kim', 'sophia.kim@email.com', 5557890);
+-----------------------------------------------------------------------------------------------------
+INSERT INTO Borrower (Borrower_ID, Phone)
+VALUES 
+    (1, 123456789),
+    (2, 987654321),
+    (3, 555555555),
+    (4, 999999999),
+    (5, 111111111);
+-----------------------------------------------------------------------------------------------------
+INSERT INTO Loan (Loan_ID, Borrower_ID, Book_ID, Dateout, Duedate)
+VALUES
+	(1, 1, 1234567890, '2023-05-01', '2023-05-15'),
+	(2, 2, 1678901234, '2023-05-02', '2023-05-16'),
+	(3, 3, 1045678901, '2023-05-03', '2023-05-17'),
+	(4, 4, 1156789012, '2023-05-04', '2023-05-18'),
+	(5, 5, 1567890123, '2023-05-05', '2023-05-19');
+
+Select * from Admin;
+Select * from Author;
+Select * from Student;
+Select * from Loan;
+Select * from Book;
+Select * from Publisher;
+Select * from Borrower;
+
