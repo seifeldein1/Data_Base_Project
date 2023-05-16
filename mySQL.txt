@@ -27,9 +27,9 @@ CREATE TABLE `Book` (
   `Admin_ID` int,
   `Author_ID` int,
   PRIMARY KEY (`ISBN`),
-  FOREIGN KEY (`Admin_ID`) REFERENCES `Admin`(`Admin_ID`),
-  FOREIGN KEY (`Publisher_Name`) REFERENCES `Publisher`(`Name`),
-  FOREIGN KEY (`Author_ID`) REFERENCES `Author`(`Author_ID`)
+  FOREIGN KEY (`Admin_ID`) REFERENCES `Admin`(`Admin_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`Publisher_Name`) REFERENCES `Publisher`(`Name`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`Author_ID`) REFERENCES `Author`(`Author_ID`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE `Student` (
@@ -54,8 +54,8 @@ CREATE TABLE `Loan` (
   `Dateout` date,
   `Duedate` date,
   PRIMARY KEY (`Loan_ID`),
-  FOREIGN KEY (`Borrower_ID`) REFERENCES `Borrower`(`Borrower_ID`),
-  FOREIGN KEY (`Book_ID`) REFERENCES `Book`(`ISBN`)
+  FOREIGN KEY (`Borrower_ID`) REFERENCES `Borrower`(`Borrower_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (`Book_ID`) REFERENCES `Book`(`ISBN`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 INSERT INTO `Admin` (`Admin_ID`, `Name`, `Email`, `Password`)
@@ -91,7 +91,7 @@ VALUES
 	(1678901234, 'Penguin Random House', 'Pride and Prejudice', 1813, 1, 5);
 -----------------------------------------------------------------------------------------------------
 INSERT INTO Student (Student_ID, Fname, Lname, Email, Phone) 
-VALUES 
+VALUES
 	(1, 'Amy', 'Lee', 'amy.lee@email.com', 5551234),
 	(2, 'Michael', 'Smith', 'michael.smith@email.com', 5555678),
 	(3, 'Emma', 'Garcia', 'emma.garcia@email.com', 5559012),
@@ -113,12 +113,3 @@ VALUES
 	(3, 3, 1045678901, '2023-05-03', '2023-05-17'),
 	(4, 4, 1156789012, '2023-05-04', '2023-05-18'),
 	(5, 5, 1567890123, '2023-05-05', '2023-05-19');
-
-Select * from Admin;
-Select * from Author;
-Select * from Student;
-Select * from Loan;
-Select * from Book;
-Select * from Publisher;
-Select * from Borrower;
-
