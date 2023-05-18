@@ -1,4 +1,4 @@
-CREATE database library;
+CREATE DATABASE library
 CREATE TABLE `Admin` (
   `Admin_ID` int,
   `Name` varchar(50),
@@ -38,6 +38,7 @@ CREATE TABLE `Student` (
   `Fname` varchar(50),
   `Lname` varchar(50),
   `Email` varchar(50),
+  `Password` varchar(50),
   `Phone` int,
   PRIMARY KEY (`Student_ID`)
 );
@@ -46,7 +47,7 @@ CREATE TABLE `Borrower` (
   `Borrower_ID` int not null,
   `Phone` int,
   PRIMARY KEY (`Borrower_ID`),
-  FOREIGN KEY (`Borrower_ID`) REFERENCES `Student`(`Student_ID`) ON DELETE cascade ON UPDATE CASCADE
+  FOREIGN KEY (`Borrower_ID`) REFERENCES `Student`(`Student_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `Loan` (
@@ -57,7 +58,7 @@ CREATE TABLE `Loan` (
   `Duedate` date,
   PRIMARY KEY (`Loan_ID`),
   FOREIGN KEY (`Borrower_ID`) REFERENCES `Borrower`(`Borrower_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`Book_ID`) REFERENCES `Book`(`ISBN`) ON DELETE SET NULL ON UPDATE CASCADE
+  FOREIGN KEY (`Book_ID`) REFERENCES `Book`(`ISBN`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO Admin (Admin_ID, Name, Email, Password) 
@@ -98,27 +99,28 @@ VALUES
 -----------------------------------------------------------------------------------------------------
 INSERT INTO Book (ISBN, Publisher_Name, Title, Publication_Year, Admin_ID, Author_ID) 
 VALUES 
+	(1901234567, 'Simon & Schuster', 'The Lord of the Rings', 2014, 4, 3),
+    (1156789012, 'Simon & Schuster', '1984', 1949, 4, 3),
 	(1234567890, 'Penguin Random House', 'To Kill a Mockingbird', 1960, 2, 1),
 	(1045678901, 'HarperCollins', 'The Great Gatsby', 1925, 3, 2),
-	(1156789012, 'Simon & Schuster', '1984', 1949, 4, 3),
 	(1567890123, 'Macmillan Publishers', 'The Catcher in the Rye', 1951, 5, 4),
 	(1678901234, 'Scholastic Corporation', 'Pride and Prejudice', 1813, 1, 5),
-    (1901234567, 'Simon & Schuster', 'The Lord of the Rings', 2014, 4, 3),
     (1012345678, 'Penguin Random House', 'The Chronicles of Narnia', 1950, 5, 2),
     (1123456789, 'HarperCollins', 'Harry Potter and the Sorcerer Stone', 2001, 1, 4);
+
 -----------------------------------------------------------------------------------------------------
-INSERT INTO Student (Student_ID, Fname, Lname, Email, Phone) 
+INSERT INTO Student (Student_ID, Fname, Lname, Email, Password, Phone) 
 VALUES
-	(1, 'Amy', 'Lee', 'amy.lee@email.com', 5551234),
-	(2, 'Michael', 'Smith', 'michael.smith@email.com', 5555678),
-	(3, 'Emma', 'Garcia', 'emma.garcia@email.com', 5559012),
-	(4, 'Daniel', 'Brown', 'daniel.brown@email.com', 5553456),
-	(5, 'Sophia', 'Kim', 'sophia.kim@email.com', 5557890),
-    (6, 'John', 'Johnson', 'john.johnson@email.com', 5551111),
-	(7, 'Sarah', 'Davis', 'sarah.davis@email.com', 5552222),
-	(8, 'David', 'Anderson', 'david.anderson@email.com', 5553333),
-	(9, 'Olivia', 'Wilson', 'olivia.wilson@email.com', 5554444),
-	(10, 'James', 'Taylor', 'james.taylor@email.com', 5555555);
+	(1, 'Amy', 'Lee', 'amy.lee@email.com', '2468amy', 5551234),
+	(2, 'Michael', 'Smith', 'michael.smith@email.com', '2468smith',5555678),
+	(3, 'Emma', 'Garcia', 'emma.garcia@email.com', '2468emma',5559012),
+	(4, 'Daniel', 'Brown', 'daniel.brown@email.com', '2468daniel',5553456),
+	(5, 'Sophia', 'Kim', 'sophia.kim@email.com', '2468sophia',5557890),
+    (6, 'John', 'Johnson', 'john.johnson@email.com', '2468john',5551111),
+	(7, 'Sarah', 'Davis', 'sarah.davis@email.com', '2468sarah',5552222),
+	(8, 'David', 'Anderson', 'david.anderson@email.com', '2468david',5553333),
+	(9, 'Olivia', 'Wilson', 'olivia.wilson@email.com', '2468olivia',5554444),
+	(10, 'James', 'Taylor', 'james.taylor@email.com', '2468james',5555555);
 -----------------------------------------------------------------------------------------------------
 INSERT INTO Borrower (Borrower_ID, Phone)
 VALUES 
@@ -151,3 +153,5 @@ Select * from Loan;
 Select * from Book;
 Select * from Publisher;
 Select * from Borrower;
+
+
