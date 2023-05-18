@@ -112,5 +112,102 @@ public class Main {
             e.printStackTrace();
         }
         //////////////////////////////////////////////////////////////////////////////
+        
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Select an option:");
+            System.out.println("1. Add a book");
+            System.out.println("2. Update a book");
+            int option = scanner.nextInt();
+
+            if (option == 1) {
+                addBook(connection);
+            } else if (option == 2) {
+                updateBook(connection);
+            } else {
+                System.out.println("Invalid option selected.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    public static void addBook(Connection connection) throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the book details:");
+        System.out.print("ISBN: ");
+        int ISBN = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Publisher Name: ");
+        String publisherName = scanner.nextLine();
+
+        System.out.print("Title: ");
+        String title = scanner.nextLine();
+
+        System.out.print("Publication Year: ");
+        int publicationYear = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Admin ID: ");
+        int adminID = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Author ID: ");
+        int authorID = scanner.nextInt();
+        scanner.nextLine();
+
+        Book book = new Book(ISBN, publisherName, title, publicationYear, adminID, authorID);
+        book.addBook(connection);
+    }
+
+    public static void updateBook(Connection connection) throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the ISBN of the book to update: ");
+        int ISBN = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Enter the new book details:");
+        System.out.print("New Title: ");
+        String newTitle = scanner.nextLine();
+
+        System.out.print("New Publication Year: ");
+        int newPublicationYear = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("New Admin ID: ");
+        int newAdminID = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("New Author ID: ");
+        int newAuthorID = scanner.nextInt();
+        scanner.nextLine();
+
+        Book bookToUpdate = new Book(ISBN, "", "", 0, 0, 0);
+        bookToUpdate.updateBookDetails(connection, newTitle, newPublicationYear, newAdminID, newAuthorID);
     }
 }
+
+
+
+
+
+
+
+
+
