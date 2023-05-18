@@ -47,42 +47,6 @@ public class SearchBooks {
             e.printStackTrace();
         }
     }
-//    public void searchLikeID(String ID){
-//        try {
-//            query = "SELECT ISBN, Title, Publisher_Name, Publication_Year, Name " +
-//                    "FROM Book, Author " +
-//                    "WHERE CAST(ISBN AS CHAR) LIKE ? and Author.Author_ID = Book.Author_ID"; //The "?" acts as a placeholder for the actual values that will be provided later
-//                    // The CAST(ISBN AS CHAR) function is used only for the purpose of the query to convert the ISBN column
-//                    // from its original data type (integer) to a character data type (string) temporarily for the comparison
-//            connection = DriverManager.getConnection(connectionString, username, password);
-//            statement = connection.prepareStatement(query);
-//
-//            statement.setString(1, ID); // the first found "?" corresponds to index 1
-//            ResultSet result = statement.executeQuery();
-//            if(!result.isBeforeFirst()){
-//                System.out.println("NO BOOKS SATISFIED THE GIVEN ISBN");
-//                return;
-//            }
-//            System.out.println("------------------BOOK SATISFIED THE GIVEN ISBN------------------");
-//            while (result.next()) { // The next method moves the cursor to the next row, and because it returns false when there are no more rows in the ResultSet object
-//                int isbn = result.getInt("ISBN");
-//                String title = result.getString("Title");
-//                String PublisherName = result.getString("Publisher_Name");
-//                int publicationYear = result.getInt("Publication_Year");
-//                String AuthorName = result.getString("Name");
-//
-//                System.out.println("Book ISBN: " + isbn);
-//                System.out.println("Book Title: " + title);
-//                System.out.println("Author Name: " + AuthorName);
-//                System.out.println("Publisher Name: " + PublisherName);
-//                System.out.println("Publication Year: " + publicationYear);
-//                System.out.println("--------------------------------");
-//            }
-//
-//        }catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public void searchByYear(int year){
         try {
