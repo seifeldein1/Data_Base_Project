@@ -1,25 +1,25 @@
 import java.sql.*;
-
+import java.util.Scanner;
 public class Book {
-    private int ISBN;
-    private String publisherName;
-    private String title;
-    private int publicationYear;
-    private int adminID;
-    private int authorID;
-
-    // Constructor
-    public Book(int ISBN, String publisherName, String title, int publicationYear, int adminID, int authorID) {
-        this.ISBN = ISBN;
-        this.publisherName = publisherName;
-        this.title = title;
-        this.publicationYear = publicationYear;
-        this.adminID = adminID;
-        this.authorID = authorID;
-    }
-
-
     public void addBook(Connection connection) throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the book details:");
+        System.out.print("ISBN: ");
+        int ISBN = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Publisher Name: ");
+        String publisherName = scanner.nextLine();
+        System.out.print("Title: ");
+        String title = scanner.nextLine();
+        System.out.print("Publication Year: ");
+        int publicationYear = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Admin ID: ");
+        int adminID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Author ID: ");
+        int authorID = scanner.nextInt();
+        scanner.nextLine();
         if (!checkAdminIdExists(connection, adminID)) {
             System.out.println("Admin does not exist. Failed to add the book: " );
             return;
@@ -47,14 +47,32 @@ public class Book {
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Book added successfully: ");
+                System.out.println("Book added successfully");
             } else {
-                System.out.println("Failed to add the book: ");
+                System.out.println("Failed to add the book");
             }
         }
     }
 
-    public void updateBookDetails(Connection connection, String new_Title, int new_PublicationYear, int new_AdminID, int new_AuthorID) throws SQLException {
+   public void updateBookDetails(Connection connection) throws SQLException {
+       System.out.println("Enter the book details:");
+       System.out.print("ISBN: ");
+       Scanner scanner = new Scanner(System.in);
+       int ISBN = scanner.nextInt();
+       scanner.nextLine();
+       System.out.print("Publisher Name: ");
+       String new_publisherName = scanner.nextLine();
+       System.out.print("Title: ");
+       String new_Title = scanner.nextLine();
+       System.out.print("Publication Year: ");
+       int new_PublicationYear = scanner.nextInt();
+       scanner.nextLine();
+       System.out.print("Admin ID: ");
+       int new_AdminID = scanner.nextInt();
+       scanner.nextLine();
+       System.out.print("Author ID: ");
+       int new_AuthorID = scanner.nextInt();
+       scanner.nextLine();
         if (!checkAdminIdExists(connection, new_AdminID)) {
             System.out.println("Admin does not exist. Failed to update book details: ISBN " );
             return;
@@ -65,15 +83,16 @@ public class Book {
             return;
         }
 
-        String query = "UPDATE Book SET Title = ?, Publication_Year = ?, Admin_ID = ?, Author_ID = ? WHERE ISBN = ?";
+        String query = "UPDATE Book SET Title = ?, Publication_Year = ?, Admin_ID = ?, Author_ID = ?,Publisher_Name = ? WHERE ISBN = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, new_Title);
             statement.setInt(2, new_PublicationYear);
             statement.setInt(3, new_AdminID);
             statement.setInt(4, new_AuthorID);
-            statement.setInt(5, ISBN);
-
+            statement.setString(5, new_publisherName);
+            statement.setInt(6, ISBN);
+            statement.executeUpdate();
         }
     }
 
@@ -109,5 +128,4 @@ public class Book {
         }
     }
 }
-
 
