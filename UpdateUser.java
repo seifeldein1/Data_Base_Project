@@ -17,19 +17,48 @@ public class UpdateUser {
      * @throws SQLException
      */
     public static void updateAdminDetails(Connection connection, int userId, String newName, String newEmail, String newPassword) throws SQLException {
-        // Check if admin user exists
         if (!checkAdminExists(connection, userId)) {
             System.out.println("Admin user does not exist. Update failed.");
             return;
         }
 
-        String updateQuery = "UPDATE Admin SET Name = ?, Email = ?, Password = ? WHERE Admin_ID = ?";
+        String updateQuery = "UPDATE Admin SET";
+        boolean hasUpdates = false;
+
+        if (newName != null) {
+            updateQuery += " Name = ?,";
+            hasUpdates = true;
+        }
+        if (newEmail != null) {
+            updateQuery += " Email = ?,";
+            hasUpdates = true;
+        }
+        if (newPassword != null) {
+            updateQuery += " Password = ?,";
+            hasUpdates = true;
+        }
+        if(!hasUpdates) {
+            System.out.println("No updates were provided. Update failed.");
+            return;
+        }
+        //// Removing the trailing comma ////
+        updateQuery = updateQuery.substring(0, updateQuery.length() - 1);
+
+        updateQuery += " WHERE Admin_ID = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
-            statement.setString(1, newName);
-            statement.setString(2, newEmail);
-            statement.setString(3, newPassword);
-            statement.setInt(4, userId);
+            int parameterIndex = 1;
+            if (newName != null) {
+                statement.setString(parameterIndex++, newName);
+            }
+            if (newEmail != null) {
+                statement.setString(parameterIndex++, newEmail);
+            }
+            if (newPassword != null) {
+                statement.setString(parameterIndex++, newPassword);
+            }
+
+            statement.setInt(parameterIndex, userId);
             statement.executeUpdate();
         }
         System.out.println("Admin user details updated successfully.");
@@ -51,21 +80,55 @@ public class UpdateUser {
             return;
         }
 
-        String updateQuery = "UPDATE Student SET Fname = ?, Lname = ?, Email = ?, Password = ? WHERE Student_ID = ?";
+        String updateQuery = "UPDATE Student SET";
+        boolean hasUpdates = false;
 
-        try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
-            // Split the new name into first name and last name
+        if (newName != null) {
             String[] names = newName.split(" ");
             String firstName = names[0];
             String lastName = names[1];
+            updateQuery += " Fname = ?, Lname = ?,";
+            hasUpdates = true;
+        }
+        if (newEmail != null) {
+            updateQuery += " Email = ?,";
+            hasUpdates = true;
+        }
+        if (newPassword != null) {
+            updateQuery += " Password = ?,";
+            hasUpdates = true;
+        }
+        if(!hasUpdates) {
+            System.out.println("No updates were provided. Update failed.");
+            return;
+        }
 
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, newEmail);
-            statement.setString(4, newPassword);
-            statement.setInt(5, userId);
+        /// Remove the trailing comma ///
+        updateQuery = updateQuery.substring(0, updateQuery.length() - 1);
+
+        updateQuery += " WHERE Student_ID = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+            int parameterIndex = 1;
+
+            if (newName != null) {
+                String[] names = newName.split(" ");
+                String firstName = names[0];
+                String lastName = names[1];
+                statement.setString(parameterIndex++, firstName);
+                statement.setString(parameterIndex++, lastName);
+            }
+            if (newEmail != null) {
+                statement.setString(parameterIndex++, newEmail);
+            }
+            if (newPassword != null) {
+                statement.setString(parameterIndex++, newPassword);
+            }
+
+            statement.setInt(parameterIndex, userId);
             statement.executeUpdate();
         }
+
         System.out.println("Student user details updated successfully.");
     }
 

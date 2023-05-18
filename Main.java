@@ -44,5 +44,70 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        /////////////////////////////////////////////////////////////////////////////
+        /**************************** sign up a new user ***************************/
+        // by saif eldeen
+        // Sign up a new admin user
+        System.out.println("\nsign up a new student");
+        // User information
+        int ID = 1; // Replace with the ID of the user to update
+        String userType = "admin"; // Change to "student" if signing up a student
+        String name = "John Doe";
+        String email = "johndoe@example.com";
+        String sign_password = "123";
+        SignUpUser signUpUser = new SignUpUser();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            if (userType.equals("admin")) {
+                signUpUser.signUpAdmin(connection,ID, name, email, sign_password);
+            } else if (userType.equals("student")) {
+                signUpUser.signUpStudent(connection, ID, name, email, sign_password);
+            } else {
+                System.out.println("Invalid user type");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        /**************************** update user information ***************************/
+        // by saif eldeen
+        // User information to update
+        System.out.println("\nupdate user information");
+        int userId = 1; // Replace with the ID of the user to update
+        String userType_to_update = "admin"; // Change to "student" if updating a student
+        String newName = "saif eldeen";
+        String newEmail = "saifeldeen201770@gmail.com";
+        String newPassword = "1234";
+        UpdateUser updateUser = new UpdateUser();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            if (userType.equals("admin")) {
+                updateUser.updateAdminDetails(connection, userId, newName, newEmail, newPassword);
+            } else if (userType.equals("student")) {
+                updateUser.updateStudentDetails(connection, userId, newName, newEmail, newPassword);
+            } else {
+                System.out.println("Invalid user type");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        /**************************** update 2 parameters of user information ***************************/
+        // by saif eldeen
+        // User information to update
+        System.out.println("\nupdate 2 parameters of user information");
+        int userId2 = 1; // Replace with the ID of the user to update
+        String userType_to_update2 = "admin"; // Change to "student" if updating a student
+        String newName2 = "mariam";
+        String newEmail2 = "mariam@gmail.com";
+        UpdateUser updateUser2 = new UpdateUser();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            if (userType.equals("admin")) {
+                updateUser.updateAdminDetails(connection, userId, newName, newEmail, null);
+            } else if (userType.equals("student")) {
+                updateUser.updateStudentDetails(connection, userId, newName, newEmail, null);
+            } else {
+                System.out.println("Invalid user type");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //////////////////////////////////////////////////////////////////////////////
     }
 }
