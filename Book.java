@@ -54,48 +54,90 @@ public class Book {
         }
     }
 
-   public void updateBookDetails(Connection connection) throws SQLException {
-       System.out.println("Enter the book details:");
-       System.out.print("ISBN: ");
-       Scanner scanner = new Scanner(System.in);
-       int ISBN = scanner.nextInt();
-       scanner.nextLine();
-       System.out.print("Publisher Name: ");
-       String new_publisherName = scanner.nextLine();
-       System.out.print("Title: ");
-       String new_Title = scanner.nextLine();
-       System.out.print("Publication Year: ");
-       int new_PublicationYear = scanner.nextInt();
-       scanner.nextLine();
-       System.out.print("Admin ID: ");
-       int new_AdminID = scanner.nextInt();
-       scanner.nextLine();
-       System.out.print("Author ID: ");
-       int new_AuthorID = scanner.nextInt();
-       scanner.nextLine();
-        if (!checkAdminIdExists(connection, new_AdminID)) {
-            System.out.println("Admin does not exist. Failed to update book details: ISBN " );
-            return;
-        }
+    public void updateBookDetails(Connection connection) throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the ISBN of the book to update: ");
+        int ISBN = scanner.nextInt();
+        scanner.nextLine();
 
-        if (!checkAuthorExists(connection, new_AuthorID)) {
-            System.out.println("Author does not exist. Failed to update book details: ISBN " );
-            return;
-        }
+        String selectQuery = "SELECT * FROM Book WHERE ISBN = ?";
+        try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+            selectStatement.setInt(1, ISBN);
+            try (ResultSet resultSet = selectStatement.executeQuery()) {
+                if (!resultSet.next()) {
+                    System.out.println("Book with ISBN " + ISBN + " does not exist.");
+                    return;
+                }
+                
+                String Title = resultSet.getString("Title");
+                int PublicationYear = resultSet.getInt("Publication_Year");
+                int AdminID = resultSet.getInt("Admin_ID");
+                int AuthorID = resultSet.getInt("Author_ID");
+                String PublisherName = resultSet.getString("Publisher_Name");
 
-        String query = "UPDATE Book SET Title = ?, Publication_Year = ?, Admin_ID = ?, Author_ID = ?,Publisher_Name = ? WHERE ISBN = ?";
+                System.out.println("Enter the updated book details:");
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, new_Title);
-            statement.setInt(2, new_PublicationYear);
-            statement.setInt(3, new_AdminID);
-            statement.setInt(4, new_AuthorID);
-            statement.setString(5, new_publisherName);
-            statement.setInt(6, ISBN);
-            statement.executeUpdate();
+                System.out.print("New Title (leave empty to keep existing title ): ");
+                String newTitle = scanner.nextLine();
+                if (newTitle.isEmpty()) {
+                    newTitle = Title;
+                }
+
+                System.out.print("New Publication Year (leave empty to keep existing publication year): ");
+                String newPublicationYearInput = scanner.nextLine();
+                int newPublicationYear = PublicationYear;
+                if (!newPublicationYearInput.isEmpty()) {
+                    newPublicationYear = Integer.parseInt(newPublicationYearInput);
+                }
+
+                System.out.print("New Admin ID (leave empty to keep existing admin ID):  ");
+                String newAdminIDInput = scanner.nextLine();
+                int newAdminID = AdminID;
+                if (!newAdminIDInput.isEmpty()) {
+                    newAdminID = Integer.parseInt(newAdminIDInput);
+                }
+
+                System.out.print("New Author ID (leave empty to keep existing author ID): ");
+                String newAuthorIDInput = scanner.nextLine();
+                int newAuthorID = AuthorID;
+                if (!newAuthorIDInput.isEmpty()) {
+                    newAuthorID = Integer.parseInt(newAuthorIDInput);
+                }
+
+                System.out.print("New Publisher Name (leave empty to keep existing publisher name): ");
+                String newPublisherName = scanner.nextLine();
+                if (newPublisherName.isEmpty()) {
+                    newPublisherName = PublisherName;
+                }
+
+                if (!checkAdminIdExists(connection, newAdminID)) {
+                    System.out.println("Admin with ID " + newAdminID + " does not exist. Failed to update book details.");
+                    return;
+                }
+
+                if (!checkAuthorExists(connection, newAuthorID)) {
+                    System.out.println("Author with ID " + newAuthorID + " does not exist. Failed to update book details.");
+                    return;
+                }
+
+                String updateQuery = "UPDATE Book SET Title = ?, Publication_Year = ?, Admin_ID = ?, Author_ID = ?, Publisher_Name = ? WHERE ISBN = ?";
+                try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                    updateStatement.setString(1, newTitle);
+                    updateStatement.setInt(2, newPublicationYear);
+                    updateStatement.setInt(3, newAdminID);
+                    updateStatement.setInt(4, newAuthorID);
+                    updateStatement.setString(5, newPublisherName);
+                    updateStatement.setInt(6, ISBN);
+                    updateStatement.executeUpdate();
+                }
+
+                System.out.println("Book details updated successfully.");
+            }
         }
     }
-
+    
+    
+    
     private static boolean checkAdminIdExists(Connection connection, int adminId) throws SQLException {
         String selectQuery = "SELECT Admin_ID FROM Admin WHERE Admin_ID = ?";
 
