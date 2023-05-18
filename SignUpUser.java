@@ -43,13 +43,13 @@ public class SignUpUser {
      * @param password
      * @throws SQLException
      */
-    public static void signUpStudent(Connection connection, int studentId, String name, String email, String password) throws SQLException {
+    public static void signUpStudent(Connection connection, int studentId, String name, String email, String password,String phone) throws SQLException {
         if (checkStudentIdExists(connection, studentId)) {
             System.out.println("Student ID already exists. Sign up failed.");
             return;
         }
 
-        String insertQuery = "INSERT INTO Student (Student_ID, Fname, Lname, Email, Password) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO Student (Student_ID, Fname, Lname, Email, Password,Phone) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
             String[] names = name.split(" ");
@@ -61,6 +61,7 @@ public class SignUpUser {
             statement.setString(3, lastName);
             statement.setString(4, email);
             statement.setString(5, password);
+            statement.setString(6, phone);
             statement.executeUpdate();
         }
         System.out.println("Student user signed up successfully.");

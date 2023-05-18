@@ -55,12 +55,13 @@ public class Main {
         String name = "John Doe";
         String email = "johndoe@example.com";
         String sign_password = "123";
+        String phone = "01111111111";
         SignUpUser signUpUser = new SignUpUser();
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             if (userType.equals("admin")) {
                 signUpUser.signUpAdmin(connection,ID, name, email, sign_password);
             } else if (userType.equals("student")) {
-                signUpUser.signUpStudent(connection, ID, name, email, sign_password);
+                signUpUser.signUpStudent(connection, ID, name, email, sign_password, phone);
             } else {
                 System.out.println("Invalid user type");
             }
@@ -76,12 +77,13 @@ public class Main {
         String newName = "saif eldeen";
         String newEmail = "saifeldeen201770@gmail.com";
         String newPassword = "1234";
+        String newPhone = "01222222222";
         UpdateUser updateUser = new UpdateUser();
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             if (userType.equals("admin")) {
                 updateUser.updateAdminDetails(connection, userId, newName, newEmail, newPassword);
             } else if (userType.equals("student")) {
-                updateUser.updateStudentDetails(connection, userId, newName, newEmail, newPassword);
+                updateUser.updateStudentDetails(connection, userId, newName, newEmail, newPassword , newPhone);
             } else {
                 System.out.println("Invalid user type");
             }
@@ -101,7 +103,8 @@ public class Main {
             if (userType.equals("admin")) {
                 updateUser.updateAdminDetails(connection, userId, newName, newEmail, null);
             } else if (userType.equals("student")) {
-                updateUser.updateStudentDetails(connection, userId, newName, newEmail, null);
+                // NO NEED TO UPDATE ALL THE PARAMETERS :)
+                updateUser.updateStudentDetails(connection, userId, newName, newEmail, null , null);
             } else {
                 System.out.println("Invalid user type");
             }

@@ -73,7 +73,7 @@ public class UpdateUser {
      * @param newPassword
      * @throws SQLException
      */
-    public static void updateStudentDetails(Connection connection, int userId, String newName, String newEmail, String newPassword) throws SQLException {
+    public static void updateStudentDetails(Connection connection, int userId, String newName, String newEmail, String newPassword ,String newPhone) throws SQLException {
         // Check if student user exists
         if (!checkStudentExists(connection, userId)) {
             System.out.println("Student user does not exist. Update failed.");
@@ -96,6 +96,10 @@ public class UpdateUser {
         }
         if (newPassword != null) {
             updateQuery += " Password = ?,";
+            hasUpdates = true;
+        }
+        if (newPhone != null) {
+            updateQuery += " Phone = ?,";
             hasUpdates = true;
         }
         if(!hasUpdates) {
@@ -123,6 +127,9 @@ public class UpdateUser {
             }
             if (newPassword != null) {
                 statement.setString(parameterIndex++, newPassword);
+            }
+            if (newPhone != null) {
+                statement.setString(parameterIndex++, newPhone);
             }
 
             statement.setInt(parameterIndex, userId);
