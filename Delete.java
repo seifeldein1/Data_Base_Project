@@ -1,40 +1,45 @@
 import java.sql.*;
 
 public class Delete {
-    String url = "jdbc:mysql://localhost:3306/library";
-    String username = "root";
-    String password = "2468mariam";
-    public void deleteStudent(int studentId){
+    /**
+     *
+     * @param connection
+     * @param studentId
+     * @throws SQLException
+     */
+    public void deleteStudent(Connection connection, int studentId) throws SQLException {
         String query = "DELETE FROM student WHERE Student_ID = ?";
-        try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, studentId);
-            int rowsAffected = statement.executeUpdate();
-            System.out.println(rowsAffected + " record(s) deleted successfully.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, studentId);
+        int rowsAffected = statement.executeUpdate();
+        System.out.println(rowsAffected + " record(s) deleted successfully.");
     }
-    public void deleteAdmin(int adminId){
+
+    /**
+     *
+     * @param connection
+     * @param adminId
+     * @throws SQLException
+     */
+    public void deleteAdmin(Connection connection, int adminId) throws SQLException {
         String query = "DELETE FROM admin WHERE Admin_ID = ?";
-        try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, adminId);
-            int rowsAffected = statement.executeUpdate();
-            System.out.println(rowsAffected + " record(s) deleted successfully.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+         PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, adminId);
+        int rowsAffected = statement.executeUpdate();
+        System.out.println(rowsAffected + " record(s) deleted successfully.");
     }
-    public void deleteBook(int bookId){
+
+    /**
+     * 
+     * @param connection
+     * @param bookId
+     * @throws SQLException
+     */
+    public void deleteBook(Connection connection, int bookId) throws SQLException{
         String query = "DELETE FROM book WHERE ISBN = ?";
-        try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, bookId);
-            int rowsAffected = statement.executeUpdate();
-            System.out.println(rowsAffected + " record(s) deleted successfully.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+         PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, bookId);
+        int rowsAffected = statement.executeUpdate();
+        System.out.println(rowsAffected + " record(s) deleted successfully.");
     }
 }
